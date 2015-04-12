@@ -5,7 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "centos7"
-  config.vm.url = "https://atlas.hashicorp.com/relativkreativ/boxes/centos-7-minimal/versions/1.0.3/providers/virtualbox.box"
+  config.vm.box_url = "https://atlas.hashicorp.com/relativkreativ/boxes/centos-7-minimal/versions/1.0.3/providers/virtualbox.box"
 
   config.vm.provider "virtualbox" do |v|
     v.customize ["modifyvm", :id, "--memory", 1024]
@@ -30,12 +30,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     cp /vagrant/ku_conf /etc/kubernetes/config
   SCRIPT
 
-  script << "echo '192.168.1.3 master' >> /etc/hosts"
+  script << "echo '192.168.1.3 master\n' >> /etc/hosts"
   minions.times do |index|
-    script << "echo '192.168.1.#{4+index} minion-#{index}' >> /etc/hosts"
+    script << "echo '192.168.1.#{4+index} minion-#{index}\n' >> /etc/hosts"
   end
-
-  config.vm.provision "shell", inline: script
 
   config.vm.define "master" do |master|
     master.vm.hostname = "master"
@@ -54,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       done
     SCRIPT
 
-    config.vm.provision "shell", inline: script + "\n" + master_script
+    master.vm.provision "shell", inline: script + "\n" + master_script
   end
 
   minions.times do |index|
@@ -72,7 +70,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         done
       SCRIPT
 
-      config.vm.provision "shell", inline: script + "\n" + node_script
+      minion.vm.provision "shell", inline: script + "\n" + node_script
     end
   end
 end

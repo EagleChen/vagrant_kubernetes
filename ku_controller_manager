@@ -3,8 +3,8 @@
 
 # defaults from config and apiserver should be adequate
 
-# Comma separated list of minions
-KUBELET_ADDRESSES="--machines=minion-0, minion-1"
+# Comma separated list of minions, no white space !!!
+KUBELET_ADDRESSES="--machines=minion-0,minion-1"
 
 # Add you own!
 KUBE_CONTROLLER_MANAGER_ARGS=""
