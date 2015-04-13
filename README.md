@@ -11,4 +11,4 @@ vagrant up
 ```
 
 Duang ! You have a running kubernetes cluster!
-If not, try restart node vms ( sometimes node fails to bring up docker after provision )
+If not, try to restart node vms ( sometimes node fails to bring up docker after provision )
